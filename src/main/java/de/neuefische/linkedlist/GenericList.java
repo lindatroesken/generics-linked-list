@@ -1,14 +1,15 @@
 package de.neuefische.linkedlist;
 
 public class GenericList<T> {
-    private AnimalListItem head;
+    private GenericListItem<T> head;
 
-    public void add(Animal animal) {
-        AnimalListItem newItem = new AnimalListItem(animal);
+    public void add(T item) {
+       // T newItem = new T(item);
+        GenericListItem<T> listItem = new GenericListItem<>(item);
         if (isEmpty()) {
-            setFirstItem(newItem);
+            setFirstItem(listItem);
         } else {
-            appendToLastItem(newItem);
+            appendToLastItem(listItem);
         }
     }
 
@@ -16,12 +17,13 @@ public class GenericList<T> {
         return head == null;
     }
 
-    private void setFirstItem(AnimalListItem item) {
+    private void setFirstItem(GenericListItem<T> item) {
         head = item;
     }
 
-    private void appendToLastItem(AnimalListItem item) {
-        AnimalListItem current = head;
+
+    private void appendToLastItem(GenericListItem<T> item) {
+        GenericListItem<T> current = head;
         while (current.getNext() != null) {
             current = current.getNext();
         }
@@ -34,23 +36,23 @@ public class GenericList<T> {
             return "";
         }
 
-        StringBuilder builder = new StringBuilder(head.getValue().getName());
+        StringBuilder builder = new StringBuilder(head.getValue().toString());
 
-        AnimalListItem current = head.getNext();
+        GenericListItem<T> current = head.getNext();
         while (current != null) {
-            builder.append(" -> ").append(current.getValue().getName());
+            builder.append(" -> ").append(current.getValue().toString());
             current = current.getNext();
         }
 
         return builder.toString();
     }
 
-    public void remove(Animal animal) {
-        removeAllFromHead(animal);
-        removeAllFromTail(animal);
+    public void remove(T value) {
+        removeAllFromHead(value);
+        removeAllFromTail(value);
     }
 
-    private void removeAllFromHead(Animal value) {
+    private void removeAllFromHead(T value) {
         if (isEmpty()) {
             return;
         }
@@ -59,11 +61,11 @@ public class GenericList<T> {
         }
     }
 
-    private void removeAllFromTail(Animal value) {
+    private void removeAllFromTail(T value) {
         if (isEmpty()) {
             return;
         }
-        AnimalListItem current = head;
+        GenericListItem<T> current = head;
         while (current.getNext() != null) {
 
             if (current.getNext().contains(value)) {
